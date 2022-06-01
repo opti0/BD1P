@@ -1,0 +1,23 @@
+	-po przyjściu do pracy „odbija się”, czyli przekazuje kiedy rozpoczął pracę
+
+	-przed wyjściem z pracy „odbija się”, tym razem przekazuje kiedy zakończył pracę
+
+	-może wygenerować rozliczenie w danym okresie
+	
+	-na koniec miesiąca generuje raport, dotyczący przepracowanych godzin przez pracowników
+
+	-może sprawdzić ile w danym dniu znajduje się pracowników w pracy
+
+	-może przygotować rozliczenie za dany okres dla danego działu
+
+	-może zatrudnić nowego pracownika
+
+	-może zwolnić pracownika
+
+	-może zmienić pracownikowi pensję
+
+	-może zmienić pracownikowi stanowisko
+
+	-może dać pracownikowi premię
+		INSERT INTO Bonuses(employee_id, bonus_date, bonus_value)
+		VALUES("20",SYSDATE,"200");
