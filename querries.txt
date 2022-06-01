@@ -11,12 +11,16 @@
 	-może przygotować rozliczenie za dany okres dla danego działu
 
 	-może zatrudnić nowego pracownika
+	//tu trzeba pamiętać żeby też był wpis do job_history od razu
 
 	-może zwolnić pracownika
-
+	//dodać datę końca do job_history
+	
 	-może zmienić pracownikowi pensję
+	//zwolnić pracownika w job_history i dodać nowy wpis z poprawioną pensją, inaczej będą przekłamania
 
 	-może zmienić pracownikowi stanowisko
+	//zwolnić pracownika w job_history i dodać nowy wpis z poprawionym stanowiskiem, inaczej będą przekłamania
 
 	-może dać pracownikowi premię
 		INSERT INTO Bonuses(employee_id, bonus_date, bonus_value)
