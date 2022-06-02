@@ -1,28 +1,52 @@
 	-po przyjściu do pracy „odbija się”, czyli przekazuje kiedy rozpoczął pracę
 		INSERT INTO Worktime_evidence (worktime_id, employee_id, start_date, finish_date)
-		VALUES ('10', '21', SYSDATE, NULL)
+		VALUES ('10', '21', '2022-06-02 10:00:00', NULL)
 	-przed wyjściem z pracy „odbija się”, tym razem przekazuje kiedy zakończył pracę
-		//TU TRZEBA ZMIENIĆ - NIE MOŻE BYĆ STAŁA KWERENDA Z USTAWIONYMI NA SZTYWNO DATAMI 
 		UPDATE Worktime_evidence SET finish_date = '2022-06-02 20:00:00' WHERE start_date = '2022-06-02 10:00:00'
 	-może wygenerować rozliczenie w danym okresie
 	
 	-na koniec miesiąca generuje raport, dotyczący przepracowanych godzin przez pracowników
-
+		
 	-może sprawdzić ile w danym dniu znajduje się pracowników w pracy
+		SELECT COUNT(*) FROM Worktime_evidence
+		WHERE start_date < CURDATE() AND finish_date IS NULL;
 
 	-może przygotować rozliczenie za dany okres dla danego działu
 
 	-może zatrudnić nowego pracownika
-	//tu trzeba pamiętać żeby też był wpis do job_history od razu
+		INSERT INTO Employees(first_name, last_name, job_id, deartment_id)
+		VALUES("Piotr", "Kowalski", 1, 1);
+		
+		INSERT INTO Job_history(employee_id, start_date, finish_date, job_id, salary)
+		VALUES((SELECT MAX(employee_id) FROM Employees),
+			CURDATE(), 
+			NULL, 
+			(SELECT job_id FROM Employees WHERE employee_id == MAX(employee_id)),
+			5000);
+
 
 	-może zwolnić pracownika
-	//dodać datę końca do job_history
+		UPDATE Job_history 
+		SET finish_date = CURDATE()
+		WHERE employee_id == 1 AND job_id == 1;
 	
 	-może zmienić pracownikowi pensję
 	//zwolnić pracownika w job_history i dodać nowy wpis z poprawioną pensją, inaczej będą przekłamania
+		UPDATE Job_history 
+		SET finish_date = CURDATE()
+		WHERE employee_id == 1 AND job_id == 1;
+
+		INSERT INTO Job_history(employee_id, start_date, finish_date, job_id, salary)
+		VALUES(1, CURDATE(), NULL, 1, 5000);
 
 	-może zmienić pracownikowi stanowisko
 	//zwolnić pracownika w job_history i dodać nowy wpis z poprawionym stanowiskiem, inaczej będą przekłamania
+		UPDATE Job_history 
+		SET finish_date = CURDATE()
+		WHERE employee_id == 1 AND job_id == 1;
+
+		INSERT INTO Job_history(employee_id, start_date, finish_date, job_id, salary)
+		VALUES(1, CURDATE(), NULL, 2, 5000);
 
 	-może dać pracownikowi premię
 		INSERT INTO Bonuses(employee_id, bonus_date, bonus_value)
