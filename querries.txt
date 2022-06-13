@@ -6,14 +6,21 @@
 UPDATE worktime_evidence SET finish_date = NOW() 
 WHERE employee_id = "13";
 	-może wygenerować rozliczenie w danym okresie
+
+		SELECT Employees.employee_id, SUM((worktime_evidence.finish_date - 	Worktime_evidence.start_date) * 24 * Job_history.salary)
+		FROM (Employees INNER JOIN Worktime_evidence ON Employees.employee_id = Worktime_evidence.employee_id) INNER JOIN Job_history ON Employees.employee_id = 					Job_history.employees_employee_id
+		WHERE Worktime_evidence.start_date >= '2000-02-10' AND Worktime_evidence.finish_date <= '2022-06-13' AND Worktime_evidence.start_date >= Job_history.start_date AND 				(Worktime_evidence.finish_date <= Job_history.finish_date OR Job_history.finish_date IS NULL)
+		GROUP BY Employees.employee_id;
 	
-	-na koniec miesiąca generuje raport, dotyczący przepracowanych godzin przez pracowników
-		
 	-może sprawdzić ile w danym dniu znajduje się pracowników w pracy
 		SELECT COUNT(*) FROM Worktime_evidence
 		WHERE start_date < NOW() AND finish_date IS NULL;
 
 	-może przygotować rozliczenie za dany okres dla danego działu
+		SELECT Employees.department_id, SUM((Worktime_evidence.finish_date - Worktime_evidence.start_date) * 24 * Job_history.salary)
+		FROM (Employees INNER JOIN Worktime_evidence ON Employees.employee_id = Worktime_evidence.employee_id) INNER JOIN Job_history ON Employees.employee_id = 					Job_history.employees_employee_id
+		WHERE Employees.department_id = 1 AND Worktime_evidence.start_date >= '2000-02-10' AND Worktime_evidence.finish_date <= '2022-06-13' AND Worktime_evidence.start_date >= 			Job_history.start_date AND (Worktime_evidence.finish_date <= Job_history.finish_date OR Job_history.finish_date IS NULL)
+		GROUP BY Employees.employee_id;
 
 	-może zatrudnić nowego pracownika
 		use mydb;
